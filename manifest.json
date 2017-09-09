@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Three Senses",
+  "name": "Lyric Machine",
 	"version": "0.1",
 	"browser_action": {
-		"default_icon": "images/three-senses-icon.png",
+		"default_icon": "images/lyric-machine-icon.png",
 		"default_popup": "dropdown.html"
 	},
 	"permissions": ["<all_urls>"]

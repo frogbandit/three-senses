@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 const rawResponse = xhr.responseText;
               	const titleEnd = rawResponse.substring(rawResponse.indexOf('document.title = "'))
-              	const title = titleEnd.substring(titleEnd.indexOf('"'), titleEnd.indexOf(';'));
+              	const title = titleEnd.substring(titleEnd.indexOf('"'), titleEnd.indexOf('YouTube'));
 
 								const lyrics = generateLyrics(title)
 								const cleanedLyrics = lyrics.substring(1, lyrics.indexOf("***"));
