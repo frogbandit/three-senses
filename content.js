@@ -2,8 +2,11 @@
 console.log('Icon clicked');
 
 document.addEventListener('DOMContentLoaded', function () {
-	const lyrics = generateLyrics("One Dance Drake");
-	document.getElementById("div-lyrics").innerHTML = lyrics;
+	const lyrics = generateLyrics("Baby Justin Bieber");
+	console.log(lyrics);
+	// const lyrics = `"Baby, I like your style<br><br>Grips on your waist<br>Front way, back way<br>You know that I don't play<br>Streets not safe<br>But I never run away<br>Even when I'm away<br>Oti, oti, there's never much love when we go OT<br>I pray to make it back in one piece<br>I pray, I pray<br><br>That's why I need a one dance<br>Got a Hennessy in my hand<br>One more time 'fore I go<br>Higher powers taking a hold on me<br>I need a one dance<br>Got a Hennessy in my hand<br>One more time 'fore I go<br>Higher powers taking a hold on me<br><br>Baby, I like your style<br><br>Strength and guidance<br>All that I'm wishing for my friends<br>...<br><br>******* This Lyrics is NOT for Commercial use *******"`
+	const cleanedLyrics = lyrics.substring(1, lyrics.indexOf("***"));
+	document.getElementById("div-lyrics").innerHTML = cleanedLyrics;
 });
 
 // API call to MusixMatch 
@@ -20,5 +23,5 @@ function generateLyrics(songTitle) {
 	if (!response.message.body.lyrics.lyrics_body) {
 		return "Cannot find song lyrics"
 	}
-	return response.message.body.lyrics.lyrics_body;
+	return JSON.stringify(response.message.body.lyrics.lyrics_body.replace(/\n/g,"<br>"));
 }
