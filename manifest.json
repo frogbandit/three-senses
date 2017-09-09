@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "Three Senses",
+	"version": "0.1",
+	"browser_action": {
+    "default_icon": "images/three-senses-icon.png",
+    "default_popup": "dropdown.html"
+	},
+	"content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["lib/jquery-3.2.1.min.js", "content.js"]
+    }
+  ]
+}
