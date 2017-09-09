@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	chrome.tabs.getSelected(null,function(tab) {
       const youtubeURL = tab.url;
 			if (youtubeURL === undefined) {
-				document.getElementById('loading').innerHTML = 'Sorry we currently only support Youtube videos.';
+				document.getElementById('loading').innerHTML = 'Sorry we currently only support YouTube videos.';
 			} else {
 	      if (isYoutube(youtubeURL) !== -1) {
 	        const xhr = new XMLHttpRequest();
@@ -18,14 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
 									const lyrics = generateLyrics(title)
 									if (lyrics !== 'No available lyrics for this song :(') {
 										const cleanedLyrics = lyrics.substring(1, lyrics.indexOf("***"));
-										document.getElementById("div-lyrics").innerHTML = cleanedLyrics;
-
 										const gif_url = generateGif(title);
+										document.getElementById("div-lyrics").innerHTML = cleanedLyrics;
 										document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
 									} else {
-										document.getElementById("div-lyrics").innerHTML = 'No available lyrics for this song :(';
-
 										const gif_url = generateGif("sad crying");
+										document.getElementById("div-lyrics").innerHTML = 'No available lyrics for this song :(';
 										document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
 									}
 
@@ -33,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	            }
 	          }
 	      } else {
-					document.getElementById('loading').innerHTML = 'Sorry we currently only support Youtube videos.';
+					document.getElementById('loading').innerHTML = 'Sorry we currently only support YouTube videos.';
 	      };
 			}
   });

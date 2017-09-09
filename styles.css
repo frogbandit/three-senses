@@ -8,6 +8,10 @@ body {
 	padding: 15px;
 }
 
+#div-lyrics {
+	min-width: 210px;
+}
+
 #loading{
     /*position: absolute;*/
 		width: 350px;
