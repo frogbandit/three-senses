@@ -1,4 +1,6 @@
 # Lyric Machine 🎵
+![alt text][screenshot]
+
 previously **Three Senses** 🍻
 
 A Chrome extension for Youtube karaoke-ing! 
@@ -9,4 +11,5 @@ Install it on the Chrome web store [here](https://chrome.google.com/webstore/det
 
 ![alt text][screenshot]
 
+[screenshot]: https://image.ibb.co/hCShzF/lyricmachine.jpg "Logo"
 [screenshot]: https://image.ibb.co/kfMpwv/Screen_Shot_2017_09_09_at_4_42_49_AM.png "Screenshot"
