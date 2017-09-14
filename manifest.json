@@ -1,4 +1,5 @@
 {
+	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnyXeHgLMMiaC5+rHEZ4hoQg0C4uAvDxUv6JNl/DvSPAnMoBdH+hred+Kurw8jOVi6rFs0SdJppPuL+XPsXOLxypQ9U+XAT8ig3KUlnC6j/OgZC3rMedpELEO1zXcXqqbvSmGF3J0SXjYvjqJhWeN/tOxnogtrAWHboPFk2z75DokdLopv8zMa5OGYBynAm46ribsZrLmZLt6PTP8thNNwu4zQ+KGRHm24Ea1Zm9Bf8CnqfTlDCA7YUTsYHB95gIKQezC97YtsfftTtFJEhlgeklzZrBUNpLE9E5on9i714fRFC3d7rIGEd4cFe/sQ9LqwsxB6U6Xg5iPImXrBBATmQIDAQAB",
   "manifest_version": 2,
   "name": "Lyric Machine",
 	"version": "1.0",
@@ -6,5 +7,5 @@
 		"default_icon": "images/lyric-machine-icon.png",
 		"default_popup": "dropdown.html"
 	},
-	"permissions": ["<all_urls>"]
+	"permissions": ["identity", "<all_urls>"]
 }
