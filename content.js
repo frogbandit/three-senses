@@ -39,31 +39,37 @@ document.addEventListener('DOMContentLoaded', function () {
 					chrome.identity.launchWebAuthFlow(
 						{'url': authURL, 'interactive': true},
 						function(redirect_url) { 
-							// get code from Spotify
-							const code = redirect_url.split('code=')[1];
-
-							// do POST to get access token from Spotify
-							const xmlHttp = new XMLHttpRequest(); 
-							xmlHttp.open( "POST", "https://accounts.spotify.com/api/token", false ); // false for synchronous request
-							xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");							
-							xmlHttp.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://bnenlnafdmcnfhemljdcecfaaemibpci.chromiumapp.org/spotify&client_id=1378cddb03a4471db8923d3f86c2573f&client_secret=c67320ae6ce1445692714233a375daf7`);
-							const response = JSON.parse(xmlHttp.responseText);
-							const access_token = response.access_token;
-
-							const title = getSpotify(access_token);
-							const lyrics = generateLyrics(title);
-							if (lyrics !== 'No available lyrics for this song :(') {
-								const cleanedLyrics = lyrics.substring(1, lyrics.indexOf("***"));
-								const gif_url = generateGif(title);
-								document.getElementById("div-lyrics").innerHTML = cleanedLyrics;
-								document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
-							} else {
-								const gif_url = generateGif("sad crying");
-								document.getElementById("div-lyrics").innerHTML = 'No available lyrics for this song :(';
-								document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
+							// error handling
+							if (!redirect_url) {
+								document.getElementById('loading').innerHTML = 'Sorry we currently only support YouTube videos.';
 							}
+							else {
+								// get code from Spotify
+								const code = redirect_url.split('code=')[1];
 
-							$('#loading').hide();
+								// do POST to get access token from Spotify
+								const xmlHttp = new XMLHttpRequest(); 
+								xmlHttp.open( "POST", "https://accounts.spotify.com/api/token", false ); // false for synchronous request
+								xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");							
+								xmlHttp.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://bnenlnafdmcnfhemljdcecfaaemibpci.chromiumapp.org/spotify&client_id=1378cddb03a4471db8923d3f86c2573f&client_secret=c67320ae6ce1445692714233a375daf7`);
+								const response = JSON.parse(xmlHttp.responseText);
+								const access_token = response.access_token;
+
+								const title = getSpotify(access_token);
+								const lyrics = generateLyrics(title);
+								if (lyrics !== 'No available lyrics for this song :(') {
+									const cleanedLyrics = lyrics.substring(1, lyrics.indexOf("***"));
+									const gif_url = generateGif(title);
+									document.getElementById("div-lyrics").innerHTML = cleanedLyrics;
+									document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
+								} else {
+									const gif_url = generateGif("sad crying");
+									document.getElementById("div-lyrics").innerHTML = 'No available lyrics for this song :(';
+									document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
+								}
+
+								$('#loading').hide();
+							}
 						}
 					);
 
