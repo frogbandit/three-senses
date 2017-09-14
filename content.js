@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 					// app id: kneidnmcnefjaglbfdmpppnjfnadjcok
 
-					const authURL = `https://accounts.spotify.com/authorize/?client_id=1378cddb03a4471db8923d3f86c2573f&response_type=code&redirect_uri=https://bnenlnafdmcnfhemljdcecfaaemibpci.chromiumapp.org/spotify&scope=user-read-currently-playing`
+					const authURL = `https://accounts.spotify.com/authorize/?client_id=1378cddb03a4471db8923d3f86c2573f&response_type=code&redirect_uri=https://kbcbkhedpppdgakadaampcdhglgbjjal.chromiumapp.org/spotify&scope=user-read-currently-playing`
 					chrome.identity.launchWebAuthFlow(
 						{'url': authURL, 'interactive': true},
 						function(redirect_url) { 
@@ -51,23 +51,29 @@ document.addEventListener('DOMContentLoaded', function () {
 								const xmlHttp = new XMLHttpRequest(); 
 								xmlHttp.open( "POST", "https://accounts.spotify.com/api/token", false ); // false for synchronous request
 								xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");							
-								xmlHttp.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://bnenlnafdmcnfhemljdcecfaaemibpci.chromiumapp.org/spotify&client_id=1378cddb03a4471db8923d3f86c2573f&client_secret=c67320ae6ce1445692714233a375daf7`);
+								xmlHttp.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://kbcbkhedpppdgakadaampcdhglgbjjal.chromiumapp.org/spotify&client_id=1378cddb03a4471db8923d3f86c2573f&client_secret=c67320ae6ce1445692714233a375daf7`);
 								const response = JSON.parse(xmlHttp.responseText);
 								const access_token = response.access_token;
 
 								const title = getSpotify(access_token);
-								const lyrics = generateLyrics(title);
-								if (lyrics !== 'No available lyrics for this song :(') {
-									const cleanedLyrics = lyrics.substring(1, lyrics.indexOf("***"));
-									const gif_url = generateGif(title);
-									document.getElementById("div-lyrics").innerHTML = cleanedLyrics;
-									document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
-								} else {
+								if (title !== 'Error in getting current song from Spotify. Please make sure Spotify is running!') {
+									const lyrics = generateLyrics(title);
+									if (lyrics !== 'No available lyrics for this song :(') {
+										const cleanedLyrics = lyrics.substring(1, lyrics.indexOf("***"));
+										const gif_url = generateGif(title);
+										document.getElementById("div-lyrics").innerHTML = cleanedLyrics;
+										document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
+									} else {
+										const gif_url = generateGif("sad crying");
+										document.getElementById("div-lyrics").innerHTML = 'No available lyrics for this song :(';
+										document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
+									}
+								}
+								else {
 									const gif_url = generateGif("sad crying");
-									document.getElementById("div-lyrics").innerHTML = 'No available lyrics for this song :(';
+									document.getElementById("div-lyrics").innerHTML = 'Error in getting current song from Spotify. Please make sure Spotify is running!';
 									document.getElementById("gif").innerHTML = `<img src=${gif_url}>`
 								}
-
 								$('#loading').hide();
 							}
 						}
@@ -81,12 +87,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // API call to Spotify to get currently playing song
 function getSpotify(access_token) { 
-	const xmlHttp = new XMLHttpRequest();
-	xmlHttp.open( "GET", "https://api.spotify.com/v1/me/player/currently-playing", false ); // false for synchronous request
-	xmlHttp.setRequestHeader("Authorization", `Bearer ${access_token}`);
-	xmlHttp.send( null );
-	const response = JSON.parse(xmlHttp.responseText);
-	return response.item.name + " " + response.item.artists[0].name;
+	try {
+		const xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "GET", "https://api.spotify.com/v1/me/player/currently-playing", false ); // false for synchronous request
+		xmlHttp.setRequestHeader("Authorization", `Bearer ${access_token}`);
+		xmlHttp.send( null );
+		const response = JSON.parse(xmlHttp.responseText);
+		return response.item.name + " " + response.item.artists[0].name;
+	}
+	catch (e) {
+		return "Error in getting current song from Spotify. Please make sure Spotify is running!"
+	}
 }
 
 // API call to MusixMatch
@@ -97,7 +108,6 @@ function generateLyrics(songTitle) {
 	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
 	xmlHttp.send( null );
 	const response = JSON.parse(xmlHttp.responseText);
-	console.log(response.message.body.length)
 
 	if (response.message.body.length === 0 || !response.message.body.lyrics.lyrics_body) {
 		return 'No available lyrics for this song :('
